@@ -34,7 +34,7 @@ kubectl -n argocd patch secret argocd-secret -p '{"stringData":  {
 kubectl create namespace dev
 kubectl config set-context --current --namespace=argocd
 
-./argocd-linux-amd64 login localhost:8080
+./argocd-linux-amd64 login localhost:8080 --username admin --password admin00 --insecure
 
 ./argocd-linux-amd64 app create app --repo https://github.com/illusionist99/app_config.git --path wil-playground  --dest-namespace dev --dest-server https://kubernetes.default.svc --directory-recurse  --sync-policy automated --auto-prune --upsert
 
