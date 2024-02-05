@@ -1,13 +1,14 @@
 #!/bin/sh
 
-# create 2 worker nodes
-k3d cluster create my-cluster --api-port 6443 -p 8080:80@loadbalancer
+# create cluster
+k3d cluster create my-cluster --api-port 6443 
 
 
 # install argoCD
 kubectl create namespace argocd
 kubectl apply -n argocd -f install.yaml
 
+# waiting for pods to be ready
 
 while [ "$(kubectl get pods -n argocd -o jsonpath='{.items[*].status.containerStatuses[0].ready}')" != "true true true true true true true" ]; do
    sleep 5
@@ -15,11 +16,30 @@ while [ "$(kubectl get pods -n argocd -o jsonpath='{.items[*].status.containerSt
 done
 
 #kubectl wait -f install.yaml
-
+#kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
+# forwarding service to localhost 443
 kubectl port-forward svc/argocd-server -n argocd 8080:443 &
 echo "Forwarded ArgoCD [+]"
-# change argoCD admin password
-#kubectl -n argocd patch secret argocd-secret -p '{"stringData":  {
-#    "admin.password": "$2a$12$XMIS1Jr/SV3y8Iffy/EAteitmV/MwDqkBm5utrfDuc73Op8JZSf6a",
-#    "admin.passwordMtime": "'$(date +%FT%T%Z)'"
-#}}'
+
+
+# change argoCD admin password admin00
+kubectl -n argocd patch secret argocd-secret -p '{"stringData":  {
+    "admin.password": "$2a$10$4JUycXXGVgWmlZlCyGL84OYs1FvnXWGSHovmTTizeiiKOIG6Ig1aK",
+    "admin.passwordMtime": "'$(date +%FT%T%Z)'"
+}}'
+
+
+#-----------------DEPLOY--APP-------------------#
+
+kubectl create namespace dev
+kubectl config set-context --current --namespace=argocd
+
+./argocd-linux-amd64 login localhost:8080
+
+./argocd-linux-amd64 app create app --repo https://github.com/illusionist99/app_config.git --path wil-playground  --dest-namespace dev --dest-server https://kubernetes.default.svc --directory-recurse  --sync-policy automated --auto-prune --upsert
+
+./argocd-linux-amd64  app get app
+
+./argocd-linux-amd64  app sync app
+
+
