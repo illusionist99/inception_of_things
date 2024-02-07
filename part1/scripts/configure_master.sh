@@ -11,5 +11,8 @@ token=`cat /vagrant/confs/cluster_token`
 sudo echo "$token" > /etc/rancher/k3s/cluster-token
 
 
-curl -sfL https://get.k3s.io | K3S_TOKEN="$token" sh -s - server --write-kubeconfig-mode '0644' --node-taint 'node-role.kubernetes.io/master=true:NoSchedule' --disable 'servicelb' --disable 'traefik' --disable 'local-path' --kube-controller-manager-arg 'bind-address=0.0.0.0' --kube-proxy-arg 'metrics-bind-address=0.0.0.0' --kube-scheduler-arg 'bind-address=0.0.0.0' --kubelet-arg 'config=/etc/rancher/k3s/kubelet.config' --kube-controller-manager-arg 'terminated-pod-gc-threshold=10' --node-external-ip='192.168.56.110'
+curl -sfL https://get.k3s.io | K3S_TOKEN="$token" sh -s - server --write-kubeconfig-mode '0644' --node-taint 'node-role.kubernetes.io/master=true:NoSchedule' --disable 'servicelb' --disable 'traefik' --disable 'local-path' --kube-controller-manager-arg 'bind-address=0.0.0.0' --kube-proxy-arg 'metrics-bind-address=0.0.0.0' --kube-scheduler-arg 'bind-address=0.0.0.0' --kubelet-arg 'config=/etc/rancher/k3s/kubelet.config' --kube-controller-manager-arg 'terminated-pod-gc-threshold=10' --node-ip '192.168.56.110'
 
+
+
+sudo cp /etc/rancher/k3s/k3s.yaml  /vagrant/k3s.yaml
