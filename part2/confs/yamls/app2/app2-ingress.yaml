@@ -2,6 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ingress-app2
+  namespace: kube-system
 spec:
   rules:
   - host: app2.com
