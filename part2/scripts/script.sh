@@ -1,5 +1,6 @@
 #!/bin/sh
 
+Count=0
 while true; do
     sleep 60
     PODS=$(kubectl get all -n kube-system)
@@ -24,8 +25,15 @@ while true; do
     done
 
     if [ "$all_running" = true ]; then
+        echo "All pods are running."
         break
     fi
+
+    if [ "$Count" -eq 4 ]; then
+        echo "Timeout: All pods are not running after 4 checks."
+        exit 1
+    fi
+    ((Count++))
 
 done
 
