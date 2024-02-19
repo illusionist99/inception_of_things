@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # create cluster
-k3d cluster create my-cluster --api-port 6443 
+k3d cluster create my-cluster --no-lb --k3s-arg="--disable=traefik@server:0"
 
 
 # install argoCD
