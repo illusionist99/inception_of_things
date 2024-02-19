@@ -28,7 +28,17 @@ kubectl -n argocd patch secret argocd-secret -p '{"stringData":  {
     "admin.passwordMtime": "'$(date +%FT%T%Z)'"
 }}'
 
+#
+#
+#
+# strategy:
+   #type: RollingUpdate
+   #rollingUpdate:
+     #maxSurge: 1
+     #maxUnavailable: 1
 
+#
+#
 #-----------------DEPLOY--APP-------------------#
 
 kubectl create namespace dev
