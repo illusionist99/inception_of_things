@@ -1,5 +1,5 @@
 #!/bin/sh
-if ! command -v k3s &> /dev/null; then
+if ! which k3s &> /dev/null 2>&1; then
     sudo mkdir -p /etc/rancher/k3s/
     sudo touch /etc/rancher/k3s/kubelet.config
     sudo echo -e "apiVersion: kubelet.config.k8s.io/v1beta1\nkind: KubeletConfiguration\nshutdownGracePeriod: 30s\nshutdownGracePeriodCriticalPods: 10s" > /etc/rancher/k3s/kubelet.config
