@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # create cluster
-k3d cluster create my-cluster --no-lb --k3s-arg="--disable=traefik@server:0"
+k3d cluster create my-cluster 
 
 
 # install argoCD
@@ -27,16 +27,6 @@ kubectl -n argocd patch secret argocd-secret -p '{"stringData":  {
     "admin.password": "$2a$10$4JUycXXGVgWmlZlCyGL84OYs1FvnXWGSHovmTTizeiiKOIG6Ig1aK",
     "admin.passwordMtime": "'$(date +%FT%T%Z)'"
 }}'
-
-#
-#
-#
-# strategy:
-   #type: RollingUpdate
-   #rollingUpdate:
-     #maxSurge: 1
-     #maxUnavailable: 1
-
 #
 #
 #-----------------DEPLOY--APP-------------------#
@@ -46,9 +36,11 @@ kubectl config set-context --current --namespace=argocd
 
 argocd login localhost:8080 --username admin --password admin00 --insecure
 
+
 argocd app create app --repo https://github.com/illusionist99/app_config.git --path wil-playground  --dest-namespace dev --dest-server https://kubernetes.default.svc --directory-recurse  --sync-policy automated --auto-prune --upsert
 
 argocd app get app
 
 argocd app sync app
 
+#kubectl port-forward svc/wil-playground -n dev 8888:8888 &
