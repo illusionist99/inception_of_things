@@ -32,6 +32,7 @@ kubectl -n argocd patch secret argocd-secret -p '{"stringData":  {
 #-----------------DEPLOY--APP-------------------#
 
 kubectl create namespace dev
+kubectl apply -f /home/kali/Desktop/okkk/part3/app_config/wil-playground/traefik-ingress.yaml -n dev
 kubectl config set-context --current --namespace=argocd
 
 argocd login localhost:8080 --username admin --password admin00 --insecure
