@@ -1,8 +1,7 @@
 #!/bin/sh
 
 # create cluster
-k3d cluster create my-cluster 
-
+k3d cluster create mycluster  --port 8080:80@loadbalancer --port 8888:8888@loadbalancer
 
 # install argoCD
 kubectl create namespace argocd
@@ -27,20 +26,9 @@ kubectl -n argocd patch secret argocd-secret -p '{"stringData":  {
     "admin.password": "$2a$10$4JUycXXGVgWmlZlCyGL84OYs1FvnXWGSHovmTTizeiiKOIG6Ig1aK",
     "admin.passwordMtime": "'$(date +%FT%T%Z)'"
 }}'
-#
-#
+
 #-----------------DEPLOY--APP-------------------#
 
-kubectl create namespace dev
-kubectl config set-context --current --namespace=argocd
+kubectl apply -f project.yaml -n argocd 
+kubectl apply -f application.yaml -n argocd
 
-argocd login localhost:8080 --username admin --password admin00 --insecure
-
-
-argocd app create app --repo https://github.com/illusionist99/app_config.git --path wil-playground  --dest-namespace dev --dest-server https://kubernetes.default.svc --directory-recurse  --sync-policy automated --auto-prune --upsert
-
-argocd app get app
-
-argocd app sync app
-
-#kubectl port-forward svc/wil-playground -n dev 8888:8888 &
