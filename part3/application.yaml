@@ -9,7 +9,7 @@ spec:
   source:
     repoURL: https://github.com/illusionist99/inception_of_things
     targetRevision: main
-    path: wil-playground
+    path: part3/wil-playground
     directory:
       recurse: true
   destination:
