@@ -7,9 +7,9 @@ metadata:
 spec:
   project: app-project
   source:
-    repoURL: https://github.com/illusionist99/inception_of_things
+    repoURL: https://github.com/illusionist99/malaoui_ception
     targetRevision: main
-    path: part3/wil-playground
+    path: p3/wil-playground
     directory:
       recurse: true
   destination:
