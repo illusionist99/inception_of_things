@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # create cluster
-k3d cluster create mycluster  --port 8080:443@loadbalancer --port 8888:8888@loadbalancer
+k3d cluster create mycluster  --port 8080:80@loadbalancer --port 8888:8888@loadbalancer
 
 # install argoCD
 kubectl create namespace argocd
