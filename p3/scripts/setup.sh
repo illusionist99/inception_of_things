@@ -5,7 +5,7 @@ k3d cluster create mycluster --port 8888:8888@loadbalancer
 
 # install argoCD
 kubectl create namespace argocd
-kubectl apply -n argocd -f install.yaml
+kubectl apply -n argocd -f confs/install.yaml
 
 # waiting for pods to be ready
 while [ "$(kubectl get pods -n argocd -o jsonpath='{.items[*].status.containerStatuses[0].ready}')" != "true true true true true true true" ]; do
@@ -30,6 +30,6 @@ kubectl -n argocd patch secret argocd-secret -p '{"stringData":  {
 kubectl create namespace dev
 
 # deploy app from config
-kubectl apply -f project.yaml -n argocd 
-kubectl apply -f application.yaml -n argocd
+kubectl apply -f confs/project.yaml -n argocd 
+kubectl apply -f confs/application.yaml -n argocd
 
