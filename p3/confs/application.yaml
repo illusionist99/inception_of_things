@@ -9,7 +9,7 @@ spec:
   source:
     repoURL: https://github.com/illusionist99/malaoui_ception
     targetRevision: main
-    path: p3/confs
+    path: p3/confs/app/
     directory:
       recurse: true
   destination:
