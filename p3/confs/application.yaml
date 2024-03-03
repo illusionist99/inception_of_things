@@ -9,7 +9,7 @@ spec:
   source:
     repoURL: https://github.com/illusionist99/malaoui_ception
     targetRevision: main
-    path: p3/wil-playground
+    path: p3/confs
     directory:
       recurse: true
   destination:
